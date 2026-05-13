@@ -1,0 +1,202 @@
+\documentclass[12pt,letterpaper]{article}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Page geometry
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\usepackage[
+  ignoreheadfoot,
+  top=1.5cm,bottom=1.5cm,
+  left=2cm,right=2cm,
+  footskip=1cm
+]{geometry}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Fonts & Unicode
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \IfFileExists{XCharter.sty}{\usepackage{XCharter}}{\usepackage{charter}}
+\else
+  \usepackage{fontspec}
+  \IfFontExistsTF{XCharter}{\setmainfont{XCharter}}{\setmainfont{Charter}}
+\fi
+\usepackage{microtype}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Title, lists, icons, links
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\urlstyle{same}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Layout helpers
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\usepackage{needspace}
+\usepackage{changepage}
+\usepackage{paracol}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Global formatting
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\raggedright
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\columnsep}{0.2cm}
+\pagenumbering{gobble}
+\setcounter{secnumdepth}{0}
+
+% Hyperref metadata and colours
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=cyan,
+  pdfauthor={Aleksei Spiridonov},
+  pdftitle={Resume — Aleksei Spiridonov}
+}
+
+\titleformat{\section}
+  {\needspace{4\baselineskip}\bfseries\large}
+  {}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing*{\section}{0pt}{0.4cm}{0.25cm}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Convenience environments
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\newenvironment{highlights}{%
+  \begin{itemize}[topsep=.12cm,parsep=.08cm,itemsep=0pt,leftmargin=10pt]}{%
+  \end{itemize}}
+
+\newenvironment{block}{%
+  \begin{adjustwidth}{0pt}{0pt}}{%
+  \end{adjustwidth}}
+
+% Two-column entry: left column is right-aligned label, right column is normal ragged right
+\newenvironment{twocolentry}[1]{%
+  \begin{adjustwidth}{0pt}{0pt}%
+  \setcolumnwidth{4cm,\fill}%
+  \begin{paracol}{2}%
+  {\raggedleft #1}\switchcolumn
+  \noindent\begin{minipage}[t]{\linewidth}
+  \raggedleft
+}{%
+  \end{minipage}
+  \end{paracol}\end{adjustwidth}}
+
+\newcommand{\tripledotsline}{%
+  \noindent\makebox[\linewidth]{\hspace{.5em}\dots\hspace{.5em}}}
+
+%––––––––––––––––––––––––––––––––––––––––––––––––
+% Document
+%––––––––––––––––––––––––––––––––––––––––––––––––
+\begin{document}
+
+% ---------- Header ----------
+\begin{center}\linespread{1.4}\selectfont%
+  {\fontsize{25pt}{25pt}\selectfont Aleksei Spiridonov\par}
+  \vspace{6pt}
+  \textbf{DevOps Engineer | Kubernetes | Terraform | GitLab CI | Helm}\par
+  \vspace{6pt}
+  \faEnvelope\;\href{mailto:karasikuk@gmail.com}{karasikuk@gmail.com}\hspace{10pt}%
+  \faIcon{whatsapp}\;\href{https://wa.me/995558544273}{+995\,558\,54\,42\,73}\hspace{10pt}%
+  \faIcon{telegram}\;\href{https://t.me/baguette_boat}{@baguette\_boat}\par%
+  \faIcon{linkedin}\;\href{https://www.linkedin.com/in/aleksei-sp}{www.linkedin.com/in/aleksei-sp}\hspace{10pt}%
+  \faIcon{github}\;\href{https://github.com/basenc}{github.com/basenc}\par%
+\end{center}
+
+% ---------- Summary ----------
+\section{Summary}
+\begin{block}
+DevOps Engineer with nearly 5 years of experience across Linux support, CI/CD automation, Kubernetes workloads, cloud infrastructure, Terraform, Helm, Ansible, and observability. Strong fit for cloud-native DevOps, platform engineering, Kubernetes operations, release automation, and production reliability roles.
+\end{block}
+
+% ---------- Technical Skills ----------
+\section{Technical Skills \& Keywords}
+\begin{block}
+\textbf{Cloud:} AWS (EKS, EC2, S3, RDS, IAM, VPC), Yandex Cloud\\
+\textbf{Containers and Orchestration:} Kubernetes (Ingress, RBAC, HPA, NetworkPolicy), Helm, Werf, Docker\\
+\textbf{Infrastructure as Code:} Terraform (modules, remote state, state management, infrastructure-as-code), Ansible\\
+\textbf{CI/CD and Release Engineering:} GitLab CI, Azure DevOps\\
+\textbf{Observability:} VictoriaMetrics, Prometheus, Grafana (alerting, dashboards), Loki\\
+\textbf{Programming and Scripting:} Bash, Python, SQL, JavaScript (NodeJS), YAML\\
+\textbf{Systems:} Linux (networking, troubleshooting), Ubuntu, CentOS, Arch Linux, NixOS\\
+\textbf{Practices:} GitOps, Infrastructure as Code, DevOps, platform engineering, runbooks, documentation, cross-functional engineering support
+\end{block}
+
+% ---------- Professional Experience ----------
+\section{Professional Experience}
+
+\begin{twocolentry}{Aug\,2024 -- Present, \textbf{DevOps Engineer}}
+  \href{https://mancalagaming.com/}{Mancala Gaming \faLink} (remote)
+\end{twocolentry}
+\begin{block}
+  \begin{highlights}
+    \item Supported GitLab CI/CD pipelines for high-traffic backend microservices and performed release troubleshooting.
+    \item Automated Kubernetes workload and resource management using Helm/Werf and GitOps workflows.
+    \item Improved production observability with VictoriaMetrics and Grafana.
+    \item Reduced release and incident recovery risk by documenting operational runbooks and standardizing deployment procedures.
+  \end{highlights}
+\end{block}
+
+\tripledotsline
+
+\begin{twocolentry}{Mar\,2023 -- Aug\,2024, \textbf{DevOps Engineer}}
+  \href{https://webtronics.ru/}{Webtronics \faLink} (remote)
+\end{twocolentry}
+\begin{block}
+  \begin{highlights}
+    \item Launched TouchWallet mobile crypto wallet backend infrastructure from scratch to production on AWS EKS.
+    \item Designed GitLab CI/CD pipelines, reducing release preparation time and improving deployment repeatability.
+    \item Managed backend infrastructure with Terraform (including custom modules) and Infrastructure as Code practices. 
+    \item Onboarded and mentored a junior system administrator.
+  \end{highlights}
+\end{block}
+
+\tripledotsline
+
+\begin{twocolentry}{Feb\,2022 -- Feb\,2023, \textbf{Tier-2 Linux Technical Support / Junior DevOps}}
+  \href{https://web.archive.org/web/20221005062315/https://piratos.cc/}{PiratOS \faLink} (remote)
+\end{twocolentry}
+\begin{block}
+  \begin{highlights}
+    \item Administered and monitored Kubernetes workloads for an on-prem Linux-based cryptocurrency mining rig platform, improving alert accuracy with Prometheus and Grafana.
+    \item Implemented CI/CD release automation with Azure DevOps, Helm, and Ansible.
+    \item Resolved Tier-2 Linux, networking, and product issues for on-prem client installations.
+  \end{highlights}
+\end{block}
+
+\tripledotsline
+
+\begin{twocolentry}{Feb\,2020 -- Jan\,2021, \textbf{Tier-2 Linux Technical Support}}
+  \href{https://dc2b.ru/}{Direct Credit \faLink} (Moscow, on-site)
+\end{twocolentry}
+\begin{block}
+  \begin{highlights}
+    \item Resolved Linux, network, workstation, and server issues.
+  \end{highlights}
+\end{block}
+
+% ---------- Education ----------
+\section{Education}
+
+\begin{block}
+\textbf{National Research University Moscow Power Engineering Institute (MPEI)}\\
+Coursework in Radio Engineering
+
+Relevant coursework: Programming, Circuit Theory, Calculus, Classical Field Theory, Radio Technology
+\end{block}
+
+% ---------- Certifications ----------
+% \section{Certifications}
+
+% \begin{block}
+% \end{block}
+
+\end{document}
