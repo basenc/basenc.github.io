@@ -15,8 +15,11 @@
 %––––––––––––––––––––––––––––––––––––––––––––––––
 \usepackage{iftex}
 \ifPDFTeX
+  \usepackage{cmap}
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+  \input{glyphtounicode}
+  \pdfgentounicode=1
   \IfFileExists{XCharter.sty}{\usepackage{XCharter}}{\usepackage{charter}}
 \else
   \usepackage{fontspec}
@@ -30,9 +33,12 @@
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{fontawesome5}
+\usepackage{accsupp}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \urlstyle{same}
+\NewDocumentCommand{\faAlt}{o m}{%
+  \BeginAccSupp{ActualText=\IfValueTF{#1}{#1}{#2}}\faIcon{#2}\EndAccSupp{}}
 
 %––––––––––––––––––––––––––––––––––––––––––––––––
 % Layout helpers
@@ -57,7 +63,7 @@
   linkcolor=blue,
   urlcolor=cyan,
   pdfauthor={Aleksei Spiridonov},
-  pdftitle={Resume — Aleksei Spiridonov}
+  pdftitle={CV — Aleksei Spiridonov}
 }
 
 \titleformat{\section}
@@ -104,17 +110,20 @@
   \vspace{6pt}
   \textbf{DevOps Engineer | Kubernetes | Terraform | GitLab CI | Helm}\par
   \vspace{6pt}
-  \faEnvelope\;\href{mailto:karasikuk@gmail.com}{karasikuk@gmail.com}\hspace{10pt}%
-  \faIcon{whatsapp}\;\href{https://wa.me/995558544273}{+995\,558\,54\,42\,73}\hspace{10pt}%
-  \faIcon{telegram}\;\href{https://t.me/baguette_boat}{@baguette\_boat}\par%
-  \faIcon{linkedin}\;\href{https://www.linkedin.com/in/aleksei-sp}{www.linkedin.com/in/aleksei-sp}\hspace{10pt}%
-  \faIcon{github}\;\href{https://github.com/basenc}{github.com/basenc}\par%
+  \faAlt[email]{envelope}\;\href{mailto:karasikuk@gmail.com}{karasikuk@gmail.com}\hspace{10pt}%
+  \faAlt{whatsapp}\;\href{https://wa.me/995558544273}{+995\,558\,54\,42\,73}\hspace{10pt}%
+  \faAlt{telegram}\;\href{https://t.me/baguette_boat}{@baguette\_boat}\par%
+  \faAlt{linkedin}\;\href{https://www.linkedin.com/in/aleksei-sp}{www.linkedin.com/in/aleksei-sp}\hspace{10pt}%
+  \faAlt{github}\;\href{https://github.com/basenc}{github.com/basenc}\par%
 \end{center}
 
 % ---------- Summary ----------
 \section{Summary}
 \begin{block}
-DevOps Engineer with nearly 5 years of experience across Linux support, CI/CD automation, Kubernetes workloads, cloud infrastructure, Terraform, Helm, Ansible, and observability. Strong fit for cloud-native DevOps, platform engineering, Kubernetes operations, release automation, and production reliability roles.
+DevOps Engineer with nearly 5 years of experience supporting production Linux systems, CI/CD automation,
+Kubernetes workloads, cloud infrastructure, Terraform, Helm, Ansible, and observability stacks.
+Experienced in cloud-native operations, release automation, infrastructure as code, GitOps workflows,
+production troubleshooting, and reliability-focused engineering.
 \end{block}
 
 % ---------- Technical Skills ----------
@@ -127,21 +136,28 @@ DevOps Engineer with nearly 5 years of experience across Linux support, CI/CD au
 \textbf{Observability:} VictoriaMetrics, Prometheus, Grafana (alerting, dashboards), Loki\\
 \textbf{Programming and Scripting:} Bash, Python, SQL, JavaScript (NodeJS), YAML\\
 \textbf{Systems:} Linux (networking, troubleshooting), Ubuntu, CentOS, Arch Linux, NixOS\\
-\textbf{Practices:} GitOps, Infrastructure as Code, DevOps, platform engineering, runbooks, documentation, cross-functional engineering support
+\textbf{Practices:} GitOps, Infrastructure as Code, DevOps, platform engineering, runbooks,
+documentation, cross-functional engineering support
 \end{block}
 
 % ---------- Professional Experience ----------
 \section{Professional Experience}
 
-\begin{twocolentry}{Aug\,2024 -- Present, \textbf{DevOps Engineer}}
+\begin{twocolentry}{Aug\,2024 -- Jun\,2026, \textbf{DevOps Engineer}}
   \href{https://mancalagaming.com/}{Mancala Gaming \faLink} (remote)
 \end{twocolentry}
 \begin{block}
   \begin{highlights}
-    \item Supported GitLab CI/CD pipelines for high-traffic backend microservices and performed release troubleshooting.
-    \item Automated Kubernetes workload and resource management using Helm/Werf and GitOps workflows.
-    \item Improved production observability with VictoriaMetrics and Grafana.
-    \item Reduced release and incident recovery risk by documenting operational runbooks and standardizing deployment procedures.
+    \item Executed workload migration between Kubernetes clusters, coordinating namespace setup,
+    service endpoint cutover, and traffic shifting for backend microservices.
+    \item Migrated container image registry from Nexus to GitLab OCI, consolidating artifact storage
+    within the existing CI/CD platform.
+    \item Authored Helm charts for backend microservices, covering ingress, HPA, and RBAC configurations
+    with templated values for multi-environment deployments.
+    \item Maintained and troubleshot GitLab CI/CD pipelines for high-traffic backend microservices.
+    \item Improved production observability with VictoriaMetrics, Loki, and OpenTelemetry, surfaced through
+    Grafana dashboards and alerts.
+    \item Reduced operational risk by documenting runbooks and standardising incident recovery procedures.
   \end{highlights}
 \end{block}
 
@@ -153,8 +169,11 @@ DevOps Engineer with nearly 5 years of experience across Linux support, CI/CD au
 \begin{block}
   \begin{highlights}
     \item Launched TouchWallet mobile crypto wallet backend infrastructure from scratch to production on AWS EKS.
+    \item Deployed and maintained blockchain full nodes, ensuring chain synchronisation and data availability.
+    \item Managed development and staging Kubernetes environments on AWS EKS, maintaining configuration parity
+    with production.
     \item Designed GitLab CI/CD pipelines, reducing release preparation time and improving deployment repeatability.
-    \item Managed backend infrastructure with Terraform (including custom modules) and Infrastructure as Code practices. 
+    \item Managed backend infrastructure with Terraform (including custom modules) and Infrastructure as Code practices.
     \item Onboarded and mentored a junior system administrator.
   \end{highlights}
 \end{block}
@@ -166,7 +185,8 @@ DevOps Engineer with nearly 5 years of experience across Linux support, CI/CD au
 \end{twocolentry}
 \begin{block}
   \begin{highlights}
-    \item Administered and monitored Kubernetes workloads for an on-prem Linux-based cryptocurrency mining rig platform, improving alert accuracy with Prometheus and Grafana.
+    \item Administered and monitored Kubernetes workloads for an on-prem Linux-based cryptocurrency
+    mining rig platform, improving alert accuracy with Prometheus and Grafana.
     \item Implemented CI/CD release automation with Azure DevOps, Helm, and Ansible.
     \item Resolved Tier-2 Linux, networking, and product issues for on-prem client installations.
   \end{highlights}
