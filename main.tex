@@ -1,8 +1,6 @@
 \documentclass[12pt,letterpaper]{article}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
 % Page geometry
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \usepackage[
   ignoreheadfoot,
   top=1.5cm,bottom=1.5cm,
@@ -10,9 +8,7 @@
   footskip=1cm
 ]{geometry}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
 % Fonts & Unicode
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage{cmap}
@@ -20,36 +16,41 @@
   \usepackage[utf8]{inputenc}
   \input{glyphtounicode}
   \pdfgentounicode=1
-  \IfFileExists{XCharter.sty}{\usepackage{XCharter}}{\usepackage{charter}}
+  \IfFileExists{XCharter.sty}
+    {\usepackage{XCharter}}
+    {\usepackage{charter}}
 \else
   \usepackage{fontspec}
-  \IfFontExistsTF{XCharter}{\setmainfont{XCharter}}{\setmainfont{Charter}}
+  \IfFontExistsTF{XCharter}
+    {\setmainfont{XCharter}}
+    {\setmainfont{Charter}}
 \fi
 \usepackage{microtype}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
 % Title, lists, icons, links
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{fontawesome5}
 \usepackage{accsupp}
 \usepackage{xcolor}
-\usepackage{hyperref}
+\usepackage[unicode]{hyperref}
 \urlstyle{same}
-\NewDocumentCommand{\faAlt}{o m}{%
-  \BeginAccSupp{ActualText=\IfValueTF{#1}{#1}{#2}}\faIcon{#2}\EndAccSupp{}}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
+% Accessible icons
+\NewDocumentCommand{\faAlt}{o m}{%
+  \BeginAccSupp{
+    ActualText=\IfValueTF{#1}{#1}{}
+  }%
+  \faIcon{#2}%
+  \EndAccSupp{}%
+}
+
 % Layout helpers
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \usepackage{needspace}
 \usepackage{changepage}
 \usepackage{paracol}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
 % Global formatting
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \raggedright
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
@@ -57,13 +58,18 @@
 \pagenumbering{gobble}
 \setcounter{secnumdepth}{0}
 
-% Hyperref metadata and colours
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
   urlcolor=cyan,
   pdfauthor={Aleksei Spiridonov},
-  pdftitle={CV — Aleksei Spiridonov}
+  pdftitle={Aleksei Spiridonov - DevOps Engineer / SRE},
+  pdfsubject={Professional Resume},
+  pdfkeywords={
+    DevOps, SRE, Kubernetes, AWS, Terraform,
+    Helm, Ansible, CI/CD, GitOps, Linux,
+    Observability
+  }
 }
 
 \titleformat{\section}
@@ -71,20 +77,23 @@
   {}{0pt}{}[\vspace{1pt}\titlerule]
 \titlespacing*{\section}{0pt}{0.4cm}{0.25cm}
 
-\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+\renewcommand\labelitemi{\textbullet}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
 % Convenience environments
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \newenvironment{highlights}{%
-  \begin{itemize}[topsep=.12cm,parsep=.08cm,itemsep=0pt,leftmargin=10pt]}{%
+  \begin{itemize}[
+    topsep=.12cm,
+    parsep=.08cm,
+    itemsep=0pt,
+    leftmargin=10pt
+  ]}{%
   \end{itemize}}
 
 \newenvironment{block}{%
   \begin{adjustwidth}{0pt}{0pt}}{%
   \end{adjustwidth}}
 
-% Two-column entry: left column is right-aligned label, right column is normal ragged right
+% Two-column entry
 \newenvironment{twocolentry}[1]{%
   \begin{adjustwidth}{0pt}{0pt}%
   \setcolumnwidth{4cm,\fill}%
@@ -96,112 +105,207 @@
   \end{minipage}
   \end{paracol}\end{adjustwidth}}
 
-\newcommand{\tripledotsline}{%
-  \noindent\makebox[\linewidth]{\hspace{.5em}\dots\hspace{.5em}}}
+% Experience heading
+\newlength{\companydatesep}
+\setlength{\companydatesep}{4pt}
 
-%––––––––––––––––––––––––––––––––––––––––––––––––
+\newlength{\datedescriptionsep}
+\setlength{\datedescriptionsep}{4pt}
+
+\newlength{\descriptionrolesep}
+\setlength{\descriptionrolesep}{6pt}
+
+% Arguments:
+% #1 Company
+% #2 Website
+% #3 Dates and location
+% #4 Company description
+% #5 Position
+
+\newcommand{\experienceheader}[5]{%
+  \needspace{7\baselineskip}%
+  \textbf{\href{#2}{#1 \faAlt{link}}}\par
+  \vspace{\companydatesep}%
+  #3\par
+  \vspace{\datedescriptionsep}%
+  #4\par
+  \vspace{\descriptionrolesep}%
+  \textbf{#5}\par
+}
+
+% Decorative experience separator
+\newcommand{\tripledotsline}{%
+  \par\vspace{0.16cm}%
+  \noindent\makebox[\linewidth][c]{%
+    \ldots
+  }%
+  \par\vspace{0.16cm}%
+}
+
 % Document
-%––––––––––––––––––––––––––––––––––––––––––––––––
 \begin{document}
 
 % ---------- Header ----------
-\begin{center}\linespread{1.4}\selectfont%
-  {\fontsize{25pt}{25pt}\selectfont Aleksei Spiridonov\par}
+\begin{center}
+  \linespread{1.4}\selectfont
+  {\fontsize{25pt}{30pt}\selectfont Aleksei Spiridonov\par}
   \vspace{6pt}
-  \textbf{DevOps Engineer | Kubernetes | Terraform | GitLab CI | Helm}\par
+
+  \textbf{DevOps Engineer / SRE}\par
   \vspace{6pt}
-  \faAlt[email]{envelope}\;\href{mailto:karasikuk@gmail.com}{karasikuk@gmail.com}\hspace{10pt}%
-  \faAlt{whatsapp}\;\href{https://wa.me/995558544273}{+995\,558\,54\,42\,73}\hspace{10pt}%
-  \faAlt{telegram}\;\href{https://t.me/baguette_boat}{@baguette\_boat}\par%
-  \faAlt{linkedin}\;\href{https://www.linkedin.com/in/aleksei-sp}{www.linkedin.com/in/aleksei-sp}\hspace{10pt}%
-  \faAlt{github}\;\href{https://github.com/basenc}{github.com/basenc}\par%
+
+  \faAlt{envelope}\;
+  Email: \href{mailto:karasikuk@gmail.com}
+    {karasikuk@gmail.com}\hspace{10pt}%
+
+  \faAlt{whatsapp}\;
+  WhatsApp: \href{https://wa.me/995558544273}
+    {+995 558 54 42 73}\hspace{10pt}%
+  \faAlt{telegram}\;
+  Telegram: \href{https://t.me/baguette_boat}
+    {@baguette\_boat}\par
+
+  \faAlt{linkedin}\;
+  LinkedIn: \href{https://www.linkedin.com/in/aleksei-sp}
+    {linkedin.com/in/aleksei-sp}\hspace{10pt}%
+  \faAlt{github}\;
+  GitHub: \href{https://github.com/basenc}
+    {github.com/basenc}\par
 \end{center}
 
 % ---------- Summary ----------
 \section{Summary}
 \begin{block}
-DevOps Engineer with nearly 5 years of experience supporting production Linux systems, CI/CD automation,
-Kubernetes workloads, cloud infrastructure, Terraform, Helm, Ansible, and observability stacks.
-Experienced in cloud-native operations, release automation, infrastructure as code, GitOps workflows,
-production troubleshooting, and reliability-focused engineering.
-\end{block}
+  I'm a DevOps Engineer with 5 years of experience working on
+  production Linux systems, cloud infrastructure, and Kubernetes.
+  Most of my work has involved keeping services running,
+  improving deployment processes, and automating routine
+  infrastructure tasks.
 
-% ---------- Technical Skills ----------
-\section{Technical Skills \& Keywords}
-\begin{block}
-\textbf{Cloud:} AWS (EKS, EC2, S3, RDS, IAM, VPC), Yandex Cloud\\
-\textbf{Containers and Orchestration:} Kubernetes (Ingress, RBAC, HPA, NetworkPolicy), Helm, Werf, Docker\\
-\textbf{Infrastructure as Code:} Terraform (modules, remote state, state management, infrastructure-as-code), Ansible\\
-\textbf{CI/CD and Release Engineering:} GitLab CI, Azure DevOps\\
-\textbf{Observability:} VictoriaMetrics, Prometheus, Grafana (alerting, dashboards), Loki\\
-\textbf{Programming and Scripting:} Bash, Python, SQL, JavaScript (NodeJS), YAML\\
-\textbf{Systems:} Linux (networking, troubleshooting), Ubuntu, CentOS, Arch Linux, NixOS\\
-\textbf{Practices:} GitOps, Infrastructure as Code, DevOps, platform engineering, runbooks,
-documentation, cross-functional engineering support
+  \vspace{4pt}
+
+  I've worked extensively with AWS, Terraform, Helm, Ansible,
+  and CI/CD systems. I'm comfortable investigating production
+  issues, working across different parts of the infrastructure,
+  and improving the maintainability of existing systems.
 \end{block}
 
 % ---------- Professional Experience ----------
 \section{Professional Experience}
 
-\begin{twocolentry}{Aug\,2024 -- Jun\,2026, \textbf{DevOps Engineer}}
-  \href{https://mancalagaming.com/}{Mancala Gaming \faLink} (remote)
-\end{twocolentry}
 \begin{block}
+  \experienceheader
+    {Mancala Gaming}
+    {https://mancalagaming.com/}
+    {Aug 2024 -- Jun 2026 | iGaming}
+    {Software development startup specializing in online casinos
+     and slot games.}
+    {DevOps Engineer}
+
   \begin{highlights}
-    \item Executed workload migration between Kubernetes clusters, coordinating namespace setup,
-    service endpoint cutover, and traffic shifting for backend microservices.
-    \item Migrated container image registry from Nexus to GitLab OCI, consolidating artifact storage
-    within the existing CI/CD platform.
-    \item Authored Helm charts for backend microservices, covering ingress, HPA, and RBAC configurations
-    with templated values for multi-environment deployments.
-    \item Maintained and troubleshot GitLab CI/CD pipelines for high-traffic backend microservices.
-    \item Improved production observability with VictoriaMetrics, Loki, and OpenTelemetry, surfaced through
-    Grafana dashboards and alerts.
-    \item Reduced operational risk by documenting runbooks and standardizing incident recovery procedures.
+    \item Helped migrate production workloads to the new on-prem
+    Kubernetes cluster, handling service endpoint cutovers and traffic
+    shifting for backend microservices.
+
+    \item Migrated OCI container images from Nexus to GitLab Container Registry.
+
+    \item Wrote and maintained Helm charts for microservices,
+    including complex templates and documentation.
+
+    \item Worked on GitLab CI/CD pipelines for high-traffic
+    backend services, troubleshooting deployment issues
+    and keeping downtime low.
+
+    \item Improved monitoring and logging with VictoriaMetrics,
+    Loki, OpenTelemetry, and Grafana dashboards and alerts.
+
+    \item Refactored pipelines and Helm charts to 
+    improve GitOps practices, add security tools, 
+    and switch from standalone Helm deployments to Werf.
+
+    \item Created runbooks and incident recovery procedures,
+    and wrote postmortems to make recurring problems easier
+    to investigate and resolve.
   \end{highlights}
 \end{block}
 
 \tripledotsline
-
 \newpage
-
-\begin{twocolentry}{Mar\,2023 -- Aug\,2024, \textbf{DevOps Engineer}}
-  \href{https://webtronics.ru/}{Webtronics \faLink} (remote)
-\end{twocolentry}
+\tripledotsline
+  
 \begin{block}
+  \experienceheader
+    {Webtronics}
+    {https://webtronics.ru/}
+    {Mar 2023 -- Aug 2024 | Remote | Crypto | Outsourcing}
+    {Software development and IT infrastructure services
+     provider. Its main project was TouchWallet, a mobile cryptocurrency wallet and exchange application.}
+    {DevOps Engineer}
+
   \begin{highlights}
-    \item Launched TouchWallet mobile crypto wallet backend infrastructure from scratch to production on AWS EKS.    
-    \item Deployed and maintained blockchain full nodes, ensuring chain synchronization and data availability.
-    \item Managed development and staging Kubernetes environments on AWS EKS, maintaining configuration parity
-    with production.
-    \item Designed GitLab CI/CD pipelines, reducing release preparation time and improving deployment repeatability.
-    \item Managed backend infrastructure with Terraform (including custom modules) and Infrastructure as Code practices.
-    \item Onboarded and mentored a junior system administrator.
+    \item Migrated TouchWallet's production backend infrastructure
+    to AWS EKS from another cloud environment.
+
+    \item Set up and maintained blockchain full nodes for
+    Bitcoin, Ethereum, Solana, and TRON, using Ansible
+    to automate configuration.
+
+    \item Managed Kubernetes clusters and application
+    workloads on AWS EKS.
+
+    \item Wrote new GitLab CI/CD pipelines and maintained
+    existing ones.
+
+    \item Used Terraform to provision and manage backend
+    infrastructure, including writing custom modules.
+
+    \item Onboarded and mentored a junior Linux
+    systems administrator.
   \end{highlights}
 \end{block}
 
 \tripledotsline
 
-\begin{twocolentry}{Feb\,2022 -- Feb\,2023, \textbf{Tier-2 Linux Technical Support / Junior DevOps}}
-  \href{https://web.archive.org/web/20221005062315/https://piratos.cc/}{PiratOS \faLink} (remote)
-\end{twocolentry}
 \begin{block}
+  \experienceheader
+    {PiratOS}
+    {https://web.archive.org/web/20221005062315/https://piratos.cc/}
+    {Feb 2022 -- Feb 2023 | Remote | Crypto}
+    {Developer of cryptocurrency mining software and a
+     specialized Linux-based operating system, also providing
+     paid technical support and enterprise solutions.}
+    {Tier 2 Linux Technical Support / Junior DevOps Engineer}
+
   \begin{highlights}
-    \item Administered and monitored Kubernetes workloads for an on-prem Linux-based cryptocurrency
-    mining rig platform, improving alert accuracy with Prometheus and Grafana.
-    \item Implemented CI/CD release automation with Azure DevOps, Helm, and Ansible.
-    \item Resolved Tier-2 Linux, networking, and product issues for on-prem client installations.
+    \item Looked after Kubernetes workloads for an on-premises
+    Linux-based cryptocurrency mining platform, improving
+    monitoring and alert accuracy with Prometheus and Grafana.
+
+    \item Worked with Azure DevOps CI/CD pipelines
+    and release automation.
+
+    \item Investigated and resolved Linux, networking,
+    and application problems in customer environments
+    as part of Tier 2 technical support.
   \end{highlights}
 \end{block}
 
 \tripledotsline
 
-\begin{twocolentry}{Feb\,2020 -- Jan\,2021, \textbf{Tier-2 Linux Technical Support}}
-  \href{https://dc2b.ru/}{Direct Credit \faLink} (Moscow, on-site)
-\end{twocolentry}
 \begin{block}
+  \experienceheader
+    {Direct Credit}
+    {https://dc2b.ru/}
+    {Feb 2020 -- Jan 2021 | On-site | Moscow, Russia}
+    {B2B financial technology provider offering infrastructure
+     for loan origination, customer verification, and
+     banking integrations.}
+    {Tier 2 Linux Technical Support}
+
   \begin{highlights}
-    \item Resolved Linux, network, workstation, and server issues.
+    \item Handled Linux, networking, workstation, and
+    server issues, troubleshooting incidents
+    and restoring normal operations.
   \end{highlights}
 \end{block}
 
@@ -209,25 +313,68 @@ documentation, cross-functional engineering support
 \section{Education}
 
 \begin{block}
-\textbf{National Research University Moscow Power Engineering Institute (MPEI)}\\
-Coursework in Radio Engineering
+  \textbf{National Research University Moscow Power
+  Engineering Institute (MPEI)}\\
+  Coursework in Radio Engineering
 
-Relevant coursework: Programming, Circuit Theory, Calculus, Classical Field Theory, Radio Technology
+  \vspace{4pt}
+
+  \textbf{Relevant coursework:}
+  Programming, Circuit Theory, Calculus,
+  Classical Field Theory, Radio Technology
 \end{block}
 
+\newpage
+
+% ---------- Technical Skills ----------
+\section{Technical Skills}
+
+\begin{block}
+  \textbf{Cloud:}
+  AWS (EKS, EC2, S3, RDS, MSK, EBS, IAM, VPC),
+  Microsoft Azure, Yandex Cloud\\
+
+  \textbf{Containers and Orchestration:}
+  Kubernetes (Ingress, RBAC, HPA, NetworkPolicy),
+  Helm, Werf, Docker, Podman\\
+
+  \textbf{Infrastructure as Code:}
+  Terraform, Ansible, Werf\\
+
+  \textbf{CI/CD and Release Engineering:}
+  GitLab CI/CD, Azure DevOps\\
+
+  \textbf{Observability:}
+  VictoriaMetrics, Prometheus, Grafana, AlertManager, Loki, OpenTelemetry\\
+
+  \textbf{Programming and Scripting:}
+  Bash, Python, SQL, JavaScript (Node.js)\\
+
+  \textbf{Systems:}
+  Linux (networking, system administration, troubleshooting),
+  Ubuntu, CentOS, Arch Linux, NixOS\\
+
+  \textbf{Tools:}
+  Git, Vim, JetBrains PyCharm,
+  Visual Studio Code, Zed\\
+
+  \textbf{AI:}
+  OpenAI GPT, Anthropic Claude, OpenAI Codex,
+  Claude Code, skills, prompt engineering,
+  agentic workflows, self-hosted AI models\\
+
+  \textbf{Practices:}
+  GitOps, Infrastructure as Code (IaC),
+  DevOps, platform engineering, site reliability
+  engineering (SRE), runbooks, technical documentation
+\end{block}
 
 % ---------- Languages ----------
 \section{Languages}
-\textbf{English:} C1/Advanced \href{https://cert.efset.org/vgPPkG?cid=em100a}{(Certificate) \faLink}\\
-\textbf{Russian:} Native\\
-\begin{block}
-\end{block}
 
-
-% ---------- Certifications ----------
-% \section{Certifications}
-
-% \begin{block}
-% \end{block}
+\textbf{English:} C1 (Advanced) --
+\href{https://cert.efset.org/vgPPkG?cid=em100a}
+  {EF SET Certificate \faAlt{link}}\\
+\textbf{Russian:} Native
 
 \end{document}
